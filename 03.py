@@ -1,9 +1,9 @@
 ###
 # --- Day 3: Toboggan Trajectory ---
 #
-#Part 1: Given an infinitely wide but finitely tall grid of empty spaces and trees, return how many trees are crossed traversing the grid starting at 0,0 with a given slope
+# Part 1: Given an infinitely wide but finitely tall grid of empty spaces and trees, return how many trees are crossed traversing the grid starting at 0,0 with a given slope
 #
-#Part 2: Given an infinitely wide but finitely tall grid of empty spaces and trees, return the product of how many trees are crossed traversing the grid starting at 0,0 given five different slopes
+# Part 2: Given an infinitely wide but finitely tall grid of empty spaces and trees, return the product of how many trees are crossed traversing the grid starting at 0,0 given five different slopes
 #
 ###
 

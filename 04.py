@@ -1,9 +1,9 @@
 ###
 # --- Day 4: Passport Processing ---
 #
-#Part 1: Given passport data, count the number of 'valid' passports (they contain data for each of 7 (+1 optional) fields)
+# Part 1: Given passport data, count the number of 'valid' passports (they contain data for each of 7 (+1 optional) fields)
 #
-#Part 2: Additional validation criteria: each field's value must follow certain rules 
+# Part 2: Additional validation criteria: each field's value must follow certain rules 
 #
 ###
 
