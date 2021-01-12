@@ -1,5 +1,8 @@
-def count_paths(nums: list) -> int:
-    
+def bridge(nums: int, range: int) -> int:
+    if range <= 3:
+        return 2**(nums)
+    else:
+        return (2**(nums) - 1)
 
 
 import time
@@ -29,33 +32,58 @@ for i in range(0, len(voltages) - 1):
 print('Part 1: ', counts[0]*counts[1])
 #2343
 
+# For Part 2, a brute force approach would take too long to calculate.
+# I determined that certain adapters are required to be in the final chain, thus we can treat different portions of the chain separately and multiply the combinations
+# It worked out that each section containing "optional" adapters crosses a voltage gap of no greater than 4, so the calculation is easy:
+# If the gap is <= 3 voltage, then all the adapters are optional (2^n combinations)
+# If the gap is >3 voltage (== 4), then we have to include at least 1 adapter to bridge the gap (2^n -1 combinations)
+# I 
 
+required_adapters = [1]
+for i in range(1, len(voltages) - 1):
+    if (voltages[i + 1] - voltages[i] == 3) or (voltages[i] - voltages[i - 1] == 3):
+        # If the previous or next possible voltage is 3 greater than the current adapter's voltage, it must be included in the final chain
+        required_adapters.append(1)
+    else:
+        required_adapters.append(0)
 
+gap_lengths = []
+gap_ranges = []
 
+for i in range(0, len(required_adapters) - 1):
+    if required_adapters[i] == 0:
+        j = i + 1
+        while required_adapters[j] == 0:
+            j += 1
+    
+        gap_lengths.append(j - i)
+        gap_ranges.append(voltages[j] - voltages[i - 1])
 
-#print('Part 2: ', find_contiguous_set(nums, 1721308972))
-#209694133
+        while i < j:
+            required_adapters[i] = -1
+            i += 1
+
+prod = 1
+for i in range(0, len(gap_lengths)):
+    prod *= bridge(gap_lengths[i], gap_ranges[i])
+
+print('Part 2: ', prod)
+#31581162962944
 
 end = time.time()
 print('Time elapsed: ', end-start)
-#~0.01
+#<0.01
 
 """
 --- Day 10: Adapter Array ---
 
-Patched into the aircraft's data port, you discover weather forecasts of a massive tropical storm. Before you can figure out whether it will impact your vacation plans, however, your device suddenly turns off!
-
-Its battery is dead.
-
-You'll need to plug it in. There's only one problem: the charging outlet near your seat produces the wrong number of jolts. Always prepared, you make a list of all of the joltage adapters in your bag.
-
-Each of your joltage adapters is rated for a specific output joltage (your puzzle input). Any given adapter can take an input 1, 2, or 3 jolts lower than its rating and still produce its rated output joltage.
-
-In addition, your device has a built-in joltage adapter rated for 3 jolts higher than the highest-rated adapter in your bag. (If your adapter list were 3, 9, and 6, your device's built-in adapter would be rated for 12 jolts.)
-
-Treat the charging outlet near your seat as having an effective joltage rating of 0.
-
-Since you have some time to kill, you might as well test all of your adapters. Wouldn't want to get to your resort and realize you can't even charge your device!
+Patched into the aircraft's data port, you discover weather forecasts of a massive tropical storm. Before you can figure out whether it will impact your vacation plans,
+however, your device suddenly turns off! Its battery is dead. You'll need to plug it in. There's only one problem: the charging outlet near your seat produces the wrong
+number of jolts. Always prepared, you make a list of all of the joltage adapters in your bag. Each of your joltage adapters is rated for a specific output joltage
+(your puzzle input). Any given adapter can take an input 1, 2, or 3 jolts lower than its rating and still produce its rated output joltage. In addition, your device
+has a built-in joltage adapter rated for 3 jolts higher than the highest-rated adapter in your bag. (If your adapter list were 3, 9, and 6, your device's built-in adapter
+would be rated for 12 jolts.) Treat the charging outlet near your seat as having an effective joltage rating of 0. Since you have some time to kill, you might as well test
+all of your adapters. Wouldn't want to get to your resort and realize you can't even charge your device! 
 
 If you use every adapter in your bag at once, what is the distribution of joltage differences between the charging outlet, the adapters, and your device?
 
@@ -122,15 +150,16 @@ Here is a larger example:
 10
 3
 
-In this larger example, in a chain that uses all of the adapters, there are 22 differences of 1 jolt and 10 differences of 3 jolts.
+In this larger example, in a chain that uses all of the adapters, there are 22 differences of 1 jolt and 10 differences of 3 jolts. 
 
-Find a chain that uses all of your adapters to connect the charging outlet to your device's built-in adapter and count the joltage differences between the charging outlet, the adapters, and your device. What is the number of 1-jolt differences multiplied by the number of 3-jolt differences?
+Find a chain that uses all of your adapters to connect the charging outlet to your device's built-in adapter and count the joltage differences between
+the charging outlet, the adapters, and your device. What is the number of 1-jolt differences multiplied by the number of 3-jolt differences?
 
 --- Part Two ---
 
-To completely determine whether you have enough adapters, you'll need to figure out how many different ways they can be arranged. Every arrangement needs to connect the charging outlet to your device. The previous rules about when adapters can successfully connect still apply.
-
-The first example above (the one that starts with 16, 10, 15) supports the following arrangements:
+To completely determine whether you have enough adapters, you'll need to figure out how many different ways they can be arranged. Every arrangement needs to connect
+the charging outlet to your device. The previous rules about when adapters can successfully connect still apply. The first example above (the one that starts with
+16, 10, 15) supports the following arrangements:
 
 (0), 1, 4, 5, 6, 7, 10, 11, 12, 15, 16, 19, (22)
 (0), 1, 4, 5, 6, 7, 10, 12, 15, 16, 19, (22)
@@ -141,9 +170,8 @@ The first example above (the one that starts with 16, 10, 15) supports the follo
 (0), 1, 4, 7, 10, 11, 12, 15, 16, 19, (22)
 (0), 1, 4, 7, 10, 12, 15, 16, 19, (22)
 
-(The charging outlet and your device's built-in adapter are shown in parentheses.) Given the adapters from the first example, the total number of arrangements that connect the charging outlet to your device is 8.
-
-The second example above (the one that starts with 28, 33, 18) has many arrangements. Here are a few:
+(The charging outlet and your device's built-in adapter are shown in parentheses.) Given the adapters from the first example, the total number of arrangements
+that connect the charging outlet to your device is 8. The second example above (the one that starts with 28, 33, 18) has many arrangements. Here are a few:
 
 (0), 1, 2, 3, 4, 7, 8, 9, 10, 11, 14, 17, 18, 19, 20, 23, 24, 25, 28, 31,
 32, 33, 34, 35, 38, 39, 42, 45, 46, 47, 48, 49, (52)
@@ -157,27 +185,10 @@ The second example above (the one that starts with 28, 33, 18) has many arrangem
 (0), 1, 2, 3, 4, 7, 8, 9, 10, 11, 14, 17, 18, 19, 20, 23, 24, 25, 28, 31,
 32, 33, 34, 35, 38, 39, 42, 45, 46, 49, (52)
 
-(0), 1, 2, 3, 4, 7, 8, 9, 10, 11, 14, 17, 18, 19, 20, 23, 24, 25, 28, 31,
-32, 33, 34, 35, 38, 39, 42, 45, 47, 48, 49, (52)
-
-(0), 3, 4, 7, 10, 11, 14, 17, 20, 23, 25, 28, 31, 34, 35, 38, 39, 42, 45,
-46, 48, 49, (52)
-
-(0), 3, 4, 7, 10, 11, 14, 17, 20, 23, 25, 28, 31, 34, 35, 38, 39, 42, 45,
-46, 49, (52)
-
-(0), 3, 4, 7, 10, 11, 14, 17, 20, 23, 25, 28, 31, 34, 35, 38, 39, 42, 45,
-47, 48, 49, (52)
-
-(0), 3, 4, 7, 10, 11, 14, 17, 20, 23, 25, 28, 31, 34, 35, 38, 39, 42, 45,
-47, 49, (52)
-
-(0), 3, 4, 7, 10, 11, 14, 17, 20, 23, 25, 28, 31, 34, 35, 38, 39, 42, 45,
-48, 49, (52)
-
 In total, this set of adapters can connect the charging outlet to your device in 19208 distinct arrangements.
 
-You glance back down at your bag and try to remember why you brought so many adapters; there must be more than a trillion valid ways to arrange them! Surely, there must be an efficient way to count the arrangements.
+You glance back down at your bag and try to remember why you brought so many adapters; there must be more than a trillion valid ways to arrange them!
+Surely, there must be an efficient way to count the arrangements.
 
 What is the total number of distinct ways you can arrange the adapters to connect the charging outlet to your device?
 """
