@@ -6,7 +6,7 @@ def count_valid_outerbag_colors(curr_bag: str,
                                 bag_contents: list) -> int:
     # Inputs: Color of curr_bag, list of all possible bag colors,
     #  corresponding list of acceptable internal bags for each external bag
-    # Returns: Count of possible bags curr_bag could be within
+    # Returns: Count of unique colored bags curr_bag could be within
 
     valid_colors = set()
     contender_bags = [curr_bag]

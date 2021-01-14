@@ -9,12 +9,10 @@ with open('05_input.txt') as f:
         row = line[0:7]
         column = line[7:10]
 
-        row = row.replace('F', '0')
-        row = row.replace('B', '1')
+        row = row.replace('F', '0').replace('B', '1')
         row = int(row, base=2) * 8
 
-        column = column.replace('L', '0')
-        column = column.replace('R', '1')
+        column = column.replace('L', '0').replace('R', '1')
         column = int(column, base=2)
 
         seat_ids.append(row + column)

@@ -2,8 +2,8 @@ import time
 
 
 def bridge_joltage_gap(adapters: int, gap_length: int) -> int:
-    # Returns the number of adapter combinations
-    # capable of bridging gap_length
+    # Returns: the number of adapter combinations
+    #  capable of bridging gap_length
     # Gap_length is <= 4
     if gap_length <= 3:
         return 2**(adapters)
@@ -33,33 +33,33 @@ print('Part 1: ', joltage_gaps[1]*joltage_gaps[3])
 # 2343
 
 # Part 2: because certain adapters are required to be in the final chain,
-# we can treat different portions of the chain separately and multiply
-# the possible combinations for each section. Each section containing
-# optional adapters crosses a joltage gap of <=4, so:
+#  we can treat different portions of the chain separately and multiply
+#  the possible combinations for each section. Each section containing
+#  optional adapters crosses a joltage gap of <=4, so:
 # If the gap is <= 3 jolts, then the adapters are optional (2^n combinations)
 # If the gap is 4 jolts, then 1 adapter is required (2^n -1 combinations)
 
 required_adapters = [1]
 for i in range(1, len(joltages) - 1):
-    if 3 in [(joltages[i] - joltages[i - 1]),
-             (joltages[i + 1] - joltages[i])]:
+    if 3 in [(joltages[i] - joltages[i-1]),
+             (joltages[i+1] - joltages[i])]:
         # If an adjacent adapter joltage differs from the current one
         # by 3, both must be included in the final chain
         required_adapters.append(1)
     else:
         required_adapters.append(0)
-required_adapters[len(required_adapters) - 1] = 1
+required_adapters[len(required_adapters)-1] = 1
 
 gap_lengths = []
 gap_ranges = []
 for i in range(0, len(required_adapters) - 1):
     if required_adapters[i] == 0:
-        j = i + 1
+        j = i+1
         while required_adapters[j] == 0:
             j += 1
 
         gap_lengths.append(j - i)
-        gap_ranges.append(joltages[j] - joltages[i - 1])
+        gap_ranges.append(joltages[j] - joltages[i-1])
 
         while i < j:
             required_adapters[i] = -1
