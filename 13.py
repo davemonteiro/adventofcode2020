@@ -28,18 +28,59 @@ for bus in bus_IDs:
 print('Part 1: ', smallest_wait * winning_ID)
 # 3606
 
-for i in range(len(bus_IDs), 0, -1):
-    if bus_IDs[i] == 'x':
+positions = []
+simplified_busIDs = []
+
+for bus in bus_IDs:
+    if bus == 'x':
         continue
+    else:
+        simplified_busIDs.append(int(bus))
+        positions.append(bus_IDs.index(bus))
 
+"""
+Shift the times so that the largest busID leaves at t == 0.
+Note: have to undo shift at the end
 
+Doing so reveals two things about the input data:
+1. All the bus ID's given are prime. Thus if 2 buses leave at the
+same time t, then t must be a multiple of busID_A*busID_B
+2. The departure time offsets is such that they can be all
+split into two groups, leaving at t==0 and t==31
+"""
 
-# print('Part 2: ', ))
-# 
+shift = positions[simplified_busIDs.index(max(simplified_busIDs))]
+positions = [x - shift for x in positions]
+
+# These three loops find times when many buses leave simultaneously
+for pos in range(0, len(positions)):
+    while positions[pos] < 0:
+        positions[pos] += simplified_busIDs[pos]
+
+for pos in range(0, len(positions)):
+    while positions[pos] >= simplified_busIDs[pos]:
+        positions[pos] -= simplified_busIDs[pos]
+
+for pos in range(0, len(positions)):
+    while positions.count(positions[pos]) == 1:
+        positions[pos] += simplified_busIDs[pos]
+
+offsets = list(set(positions))
+products = [1] * len(offsets)
+
+for pos in range(0, len(positions)):
+    products[offsets.index(positions[pos])] *= simplified_busIDs[pos]
+
+i = products[0]
+while (i + offsets[1]) % products[1] != 0:
+    i += products[0]
+
+print('Part 2: ', i - shift)
+# 379786358533423
 
 end = time.time()
 print('Time elapsed: ', end-start)
-# <0.01s
+# <1s
 
 """
 --- Day 13: Shuttle Search ---
