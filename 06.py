@@ -33,9 +33,9 @@ for group in group_answers:
     group_letter_counts.append(list(group.values())[1:])
 
 solution = 0
-for group in range(0, len(group_letter_counts)):
-    for letter in group_letter_counts[group]:
-        if letter == group_sizes[group]:
+for group_idx, group_letters in enumerate(group_letter_counts):
+    for letter in group_letters:
+        if letter == group_sizes[group_idx]:
             solution += 1
 
 print('Part 2: ', solution)

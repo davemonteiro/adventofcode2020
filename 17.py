@@ -35,7 +35,7 @@ def update_4d(z, w, x, y, active_cubes: set) -> tuple:
 def count(cubes: set) -> int:
     # Returns the number of cubes in a set
     # Because of reflection about z = 0,
-    # We count each cube with z != 0 twice
+    # We count each cube with z > 0 twice
 
     active_cube_count = 0
     for i in cubes:
@@ -53,7 +53,7 @@ start = time.time()
 
 """
 Notes: +/- z-coordinates will always be identical
-But, when updating z=0, need to double count neighbors in z=1
+But, when updating z=0, need to double count neighbors with z=1
 The 3-D case is the same as the 4-D case with w=0
 """
 

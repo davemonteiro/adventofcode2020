@@ -8,10 +8,10 @@ def mask_value(mask: str, value: int) -> int:
     value = str(bin(value))[2:]
     value = (36*'0' + value)[-36:]
 
-    for char in range(0, len(mask)):
+    for char_idx, char in enumerate(mask):
         # where bitmask is 0,1 = replace mem address bit with 0,1
-        if mask[char] in ['0', '1']:
-            value = value[0:char] + mask[char] + value[char+1:]
+        if char in ['0', '1']:
+            value = value[0:char_idx] + char + value[char_idx+1:]
 
     return int(value, 2)
 
@@ -25,15 +25,15 @@ def mask_memory(mask: str, mvalue: int) -> list:
     mvalue = (36*'0' + mvalue)[-36:]
 
     xs = 0
-    for char in range(0, len(mask)):
+    for char_idx, char in enumerate(mask):
         # where bitmask is X = floating
-        if mask[char] == 'X':
+        if char == 'X':
             xs += 1
-            mvalue = mvalue[0:char] + 'X' + mvalue[char+1:]
+            mvalue = mvalue[0:char_idx] + 'X' + mvalue[char_idx+1:]
 
         # where bitmask is 1 = replace mem address bit with 1
-        elif mask[char] == '1':
-            mvalue = mvalue[0:char] + '1' + mvalue[char+1:]
+        elif char == '1':
+            mvalue = mvalue[0:char_idx] + '1' + mvalue[char_idx+1:]
 
     memory_locations = []
     for permutation in range(0, 2**xs):

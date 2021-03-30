@@ -42,7 +42,7 @@ print('Part 1: ', memory_game_n_turns(history.copy(), next_num, turn, 2020))
 # 1325
 
 print('Part 2: ', memory_game_n_turns(history, next_num, turn, 30000000))
-# 2308180581795
+# 59006
 
 end = time.time()
 print('Time elapsed: ', end-start)

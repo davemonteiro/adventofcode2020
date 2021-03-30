@@ -11,6 +11,7 @@ def step_forward(seat_map: list, neighbor_seats: list) -> list:
         curr_row = []
         for col in range(0, len(seat_map[0])):
             if seat_map[row][col] == 'L':
+                # Current position is empty
                 occupied_adjacent = 0
                 for i, j in neighbor_seats[row][col]:
                     if seat_map[i][j] == '#':
@@ -22,6 +23,7 @@ def step_forward(seat_map: list, neighbor_seats: list) -> list:
                     curr_row.append('L')
 
             elif seat_map[row][col] == '#':
+                # Current position is occupied
                 occupied_adjacent = 0
                 for i, j in neighbor_seats[row][col]:
                     if seat_map[i][j] == '#':
@@ -33,6 +35,7 @@ def step_forward(seat_map: list, neighbor_seats: list) -> list:
                     curr_row.append('#')
 
             else:
+                # Current position is floor
                 curr_row.append('.')
 
         updated_seats.append(curr_row)
@@ -44,6 +47,7 @@ def fill_seats(seat_map: list, neighbor_seats: list) -> int:
     # Returns: number of occupied seats in final position
     #  Final position is when occupancy doesn't
     #  change between iterations
+
     occupied_seats = 0
     while True:
         seat_map = step_forward(seat_map, neighbor_seats)
@@ -108,7 +112,7 @@ print('Part 2: ', fill_seats(seats, los_neighbors))
 
 end = time.time()
 print('Time elapsed: ', end-start)
-# <2.0s
+# ~2s
 
 """
 --- Day 11: Seating System ---

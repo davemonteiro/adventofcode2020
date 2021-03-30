@@ -9,6 +9,7 @@ with open('05_input.txt') as f:
         row = line[0:7]
         column = line[7:10]
 
+        # Encode seat positions in binary
         row = row.replace('F', '0').replace('B', '1')
         row = int(row, base=2) * 8
 
@@ -20,12 +21,11 @@ with open('05_input.txt') as f:
 print('Part 1: ', max(seat_ids))
 # 842
 
-seat_ids = sorted(seat_ids)
-
-my_seat = 0
-for i in range(1, len(seat_ids) - 2):
-    if seat_ids[i] != (seat_ids[i-1] + 1):
-        my_seat = seat_ids[i-1] + 1
+# Locate empty seat = missing integer in [seat_ids]
+my_seat = -1
+for i in range(min(seat_ids), max(seat_ids)):
+    if i not in seat_ids:
+        my_seat = i
         break
 
 print('Part 2: ', my_seat)

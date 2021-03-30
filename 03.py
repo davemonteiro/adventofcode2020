@@ -15,6 +15,7 @@ for slope in slopes:
     col, row = 0, 0
 
     while row < len(tree_grid):
+        # If the boundary is reached, wrap around
         if col >= len(tree_grid[0]):
             col -= len(tree_grid[0])
 

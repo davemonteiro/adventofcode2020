@@ -37,7 +37,7 @@ print('Part 1: ', joltage_gaps[1]*joltage_gaps[3])
 #  the possible combinations for each section. Each section containing
 #  optional adapters crosses a joltage gap of <=4, so:
 # If the gap is <= 3 jolts, then the adapters are optional (2^n combinations)
-# If the gap is 4 jolts, then 1 adapter is required (2^n -1 combinations)
+# If the gap is 4 jolts, then 1 adapter is required (2^n - 1 combinations)
 
 required_adapters = [1]
 for i in range(1, len(joltages) - 1):

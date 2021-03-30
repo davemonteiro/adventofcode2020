@@ -13,9 +13,9 @@ def process_instructions(instructions: list) -> int:
     neg_directions = ['S', 'W']
     distances = np.array([0, 0])
 
-    # N/S, E/W
     curr_direction = np.array([0, 1])
     for action, value in instructions:
+        # action in 'NESW'
         if action in directions:
             distances[directions.index(action)] += value
         elif action in neg_directions:
@@ -28,6 +28,7 @@ def process_instructions(instructions: list) -> int:
             if action == 'L':
                 curr_direction = rotate_vector(curr_direction, value)
             else:
+                # action == 'R'
                 curr_direction = rotate_vector(curr_direction, -value)
 
     return abs(distances[0]) + abs(distances[1])
@@ -44,9 +45,9 @@ def process_instructions_waypoint(instructions: list) -> int:
     neg_directions = ['S', 'W']
     distances = np.array([0, 0])
 
-    # N/S, E/W
     curr_direction = np.array([1, 10])
     for action, value in instructions:
+        # action in 'NESW'
         if action in directions:
             curr_direction[directions.index(action)] += value
         elif action in neg_directions:
@@ -59,6 +60,7 @@ def process_instructions_waypoint(instructions: list) -> int:
             if action == 'L':
                 curr_direction = rotate_vector(curr_direction, value)
             else:
+                # action == 'R'
                 curr_direction = rotate_vector(curr_direction, -value)
 
     return abs(distances[0]) + abs(distances[1])
@@ -96,7 +98,7 @@ print('Part 2: ', process_instructions_waypoint(instructions))
 
 end = time.time()
 print('Time elapsed: ', end-start)
-# <0.01s
+# ~0.01s
 
 """
 --- Day 12: Rain Risk ---

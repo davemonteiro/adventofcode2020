@@ -19,16 +19,17 @@ for pw_policy in pw_policies:
 
     # Part 1
     # A password is valid if X occurs in loremipXsum at least
-    #  'a' and no more than 'b' times
+    # 'a' and no more than 'b' times
     instances = pw.count(given_letter)
     if instances >= pw_range[0] and instances <= pw_range[1]:
         valid_passwords_part1 += 1
 
     # Part 2
-    # A password is valid if only one of loremipXsum[a]
-    #  and loremipXsum[b] is X
+    # A password is valid if only one of loremipXsum[a-1]
+    # and loremipXsum[b-1] is X
     candidates = []
 
+    # Check if a and b are less than len(password)
     if len(pw) >= pw_range[0]:
         candidates.append(pw[pw_range[0]-1])
     if len(pw) >= pw_range[1]:

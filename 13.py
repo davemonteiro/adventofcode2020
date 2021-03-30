@@ -9,7 +9,6 @@ with open('13_input.txt') as f:
     earliest_time = int(f.readline().rstrip())
     bus_IDs = f.readline().rstrip().split(',')
 
-
 smallest_wait = 1000000
 winning_ID = -1
 
@@ -45,7 +44,7 @@ Note: have to undo shift at the end
 Doing so reveals two things about the input data:
 1. All the bus ID's given are prime. Thus if 2 buses leave at the
 same time t, then t must be a multiple of busID_A*busID_B
-2. The departure time offsets is such that they can be all
+2. The departure time offsets are such that they can be all
 split into two groups, leaving at t==0 and t==31
 """
 

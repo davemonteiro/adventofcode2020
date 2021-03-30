@@ -3,21 +3,19 @@ import time
 
 def sum2_in_list(nums: list, total: int) -> bool:
     # Returns: whether or not a list of integers
-    #  contains two distinct integers that sum to total
-
-    for i in range(0, len(nums)):
-        for j in range(i, len(nums)):
-            if nums[i] + nums[j] == total:
+    # contains two distinct integers that sum to total
+    for idx_i, i in enumerate(nums):
+        for j in nums[idx_i+1:]:
+            if i+j == total:
                 return True
     return False
 
 
 def find_first_weakness(nums: list, preamble_len: int) -> int:
     # Returns: the first integer in a list for which there are no two integers
-    #  in the preceding preamble_len integers that sum to it
-
+    # in the preceding preamble_len integers that sum to it
     for i in range(preamble_len, len(nums)-1):
-        if not sum2_in_list(nums[(i-25):i], nums[i]):
+        if not sum2_in_list(nums[(i-preamble_len):i], nums[i]):
             return nums[i]
     return -1
 
@@ -25,10 +23,9 @@ def find_first_weakness(nums: list, preamble_len: int) -> int:
 def find_contiguous_set(nums: list, total: int) -> int:
     # First: finds a set of contiguous integers from a list that sums to total
     # Returns: the sum of the smallest/largest integers within this set
-
     curr_sum = []
-    for i in range(0, len(nums)):
-        curr_sum.append(nums[i])
+    for num in nums:
+        curr_sum.append(num)
         while sum(curr_sum) > total:
             curr_sum.pop(0)
 
